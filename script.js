@@ -11,19 +11,7 @@ function sleep(a, b) {
 }
 
 var quiz = {incorrect:{}, incorrect2:{}}, y;
-
-var KEYS = Object.keys(data);
-
-for(var i = 0; i < KEYS.length; i++)
-{
-    var CODE = KEYS[i];
-
-    quiz.incorrect[CODE] = [];
-    quiz.incorrect2[CODE] = [];
-    document.querySelector("#lang optgroup").innerHTML += "<option value="+CODE+">"+CODE+"</option>";
-}
-
-
+var data = {};
 
 quiz.initQuiz = function (z, c) { // array: greek  , name: greek
 
@@ -51,7 +39,7 @@ quiz.initQuiz = function (z, c) { // array: greek  , name: greek
         this.options[q].onclick = this.chooseAnswer;
     }
     this.createQuestion();
-    document.getElementById('result').innerHTML = '<i>Test has initiated</i>';
+    document.getElementById('result').innerHTML = '<i>Test <b>'+z+'</b> has initiated</i>';
 };
 
 
@@ -208,26 +196,41 @@ function show()
 
 
 window.onload = function () {
-    changeMode('greek');
-};
+    var KEYS = Object.keys(data);
+
+    for(var i = 0; i < KEYS.length; i++)
+    {
+        var CODE = KEYS[i];
+
+        quiz.incorrect[CODE] = [];
+        quiz.incorrect2[CODE] = [];
+        document.querySelector("#lang optgroup").innerHTML += "<option value="+CODE+">"+CODE+"</option>";
+    }
+
+    var init = 'greek';
+    if(!data.hasOwnProperty(init)) { 
+        init = Object.keys(data)[0];
+    }
+    changeMode(init);
 
 
-document.getElementById('lang').onchange = function() 
-{
-    changeMode(this.value);
-};
+    document.getElementById('lang').onchange = function() 
+    {
+        changeMode(this.value);
+    };
 
-document.getElementById('ink').onclick = function()
-{
-	changeMode(quiz.mode,true);
-};
+    document.getElementById('ink').onclick = function()
+    {
+        changeMode(quiz.mode,true);
+    };
 
-document.getElementById('rest').onclick = function()
-{
-	changeMode(quiz.mode);
-};
+    document.getElementById('rest').onclick = function()
+    {
+        changeMode(quiz.mode);
+    };
 
-document.getElementById('chk').onclick = function()
-{
-    show();
+    document.getElementById('chk').onclick = function()
+    {
+        show();
+    };
 };
